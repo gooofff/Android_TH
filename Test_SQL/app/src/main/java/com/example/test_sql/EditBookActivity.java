@@ -12,8 +12,8 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditBookActivity extends AppCompatActivity {
-    private EditText editTextTitle, editTextAuthor, editTextTags;
-    private Button buttonUpdateBook;
+    private EditText edtTitleEdit, edtAuthorEdit, edtTagsEdit;
+    private Button btnUpdateBook;
     private DatabaseHelper dbHelper;
     private int bookId;
 
@@ -22,10 +22,10 @@ public class EditBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        editTextTitle = findViewById(R.id.editTextTitle);
-        editTextAuthor = findViewById(R.id.editTextAuthor);
-        editTextTags = findViewById(R.id.editTextTags);
-        buttonUpdateBook = findViewById(R.id.buttonUpdateBook);
+        edtTitleEdit = findViewById(R.id.edtTitleEdit);
+        edtAuthorEdit = findViewById(R.id.edtAuthorEdit);
+        edtTagsEdit = findViewById(R.id.edtTagsEdit);
+        btnUpdateBook = findViewById(R.id.btnUpdateBook);
         dbHelper = new DatabaseHelper(this);
 
         Intent intent = getIntent();
@@ -33,12 +33,12 @@ public class EditBookActivity extends AppCompatActivity {
 
         loadBookInfo();
 
-        buttonUpdateBook.setOnClickListener(new View.OnClickListener() {
+        btnUpdateBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = editTextTitle.getText().toString();
-                String author = editTextAuthor.getText().toString();
-                String tags = editTextTags.getText().toString();
+                String title = edtTitleEdit.getText().toString();
+                String author = edtAuthorEdit.getText().toString();
+                String tags = edtTagsEdit.getText().toString();
 
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 ContentValues values = new ContentValues();
@@ -48,6 +48,9 @@ public class EditBookActivity extends AppCompatActivity {
 
                 db.update(DatabaseHelper.TABLE_BOOKS, values, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(bookId)});
                 db.close();
+                Intent myIntent = new Intent(EditBookActivity.this, MainActivity.class);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(myIntent);
                 finish();
             }
         });
@@ -62,14 +65,12 @@ public class EditBookActivity extends AppCompatActivity {
             String author = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_AUTHOR));
             String tags = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TAGS));
 
-            editTextTitle.setText(title);
-            editTextAuthor.setText(author);
-            editTextTags.setText(tags);
+            edtTitleEdit.setText(title);
+            edtAuthorEdit.setText(author);
+            edtTagsEdit.setText(tags);
         }
 
         cursor.close();
         db.close();
     }
-}
-
 }

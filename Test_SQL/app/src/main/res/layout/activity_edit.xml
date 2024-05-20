@@ -19,7 +19,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/edtTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,13 +43,12 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/edtAuthorEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="text"
-            android:text="Name" />
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -67,17 +66,16 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextText3"
+            android:id="@+id/edtTagsEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="text"
-            android:text="Name" />
+            android:inputType="text" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnUpdateBook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Edit" />

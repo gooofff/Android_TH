@@ -24,8 +24,13 @@
         <activity
             android:name=".AddBookActivity"
             android:exported="true">
-
         </activity>
+
+        <activity
+            android:name=".EditBookActivity"
+            android:exported="true">
+        </activity>
+
     </application>
 
 </manifest>
