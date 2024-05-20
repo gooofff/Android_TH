@@ -1,6 +1,7 @@
 package com.example.test_sql;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +41,10 @@ public class AddBookActivity extends AppCompatActivity {
 
                 db.insert(DatabaseHelper.TABLE_BOOKS, null, values);
                 db.close();
+
+                Intent myIntent = new Intent(AddBookActivity.this, MainActivity.class);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(myIntent);
                 finish();
             }
         });
