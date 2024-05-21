@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -176,6 +178,41 @@ public class MainActivity extends AppCompatActivity {
                 recreate();
             }
         });
+
+        edtId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterList(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+    private void filterList(String text) {
+        if (text.equals("")) {
+            adapter.clear();
+            show();
+            adapter.notifyDataSetChanged();
+        }
+        else {
+            List<String> filteredList = new ArrayList<>();
+            for (String item : myList) {
+                if (item.toLowerCase().contains(text.toLowerCase())) {
+                    filteredList.add(item);
+                }
+            }
+            adapter.clear();
+            adapter.addAll(filteredList);
+            adapter.notifyDataSetChanged();
+        }
     }
     private void show() {
         Cursor c = db.query("tblop", null, null, null, null, null, null);
