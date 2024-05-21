@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
-                    recreate();
+                    show();
                 }
             }
         });
@@ -108,8 +108,12 @@ public class MainActivity extends AppCompatActivity {
                     msg = n + " ban ghi duoc xoa";
                 }
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                edtId.setText("");
+                edtName.setText("");
+                edtNum.setText("");
                 adapter.notifyDataSetChanged();
-                recreate();
+                adapter.clear();
+                show();
             }
         });
 
@@ -145,7 +149,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                             Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                             adapter.notifyDataSetChanged();
-                            recreate();
+                            adapter.clear();
+                            show();
                         }
                     }
                 }
@@ -164,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
                     edtId.setText(itemId);
                     edtName.setText(itemName);
                     edtNum.setText((itemNumber));
+                    adapter.clear();
+                    show();
                 }
             }
         });
@@ -175,7 +182,8 @@ public class MainActivity extends AppCompatActivity {
                 edtName.setText("");
                 edtNum.setText("");
                 adapter.notifyDataSetChanged();
-                recreate();
+                adapter.clear();
+                show();
             }
         });
 
