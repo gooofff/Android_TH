@@ -119,10 +119,17 @@
 
         <Button
             android:id="@+id/btnDel"
-            android:layout_width="wrap_content"
+            android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="XOÁ" />
+
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LÀM TRỐNG" />
 
     </LinearLayout>
 

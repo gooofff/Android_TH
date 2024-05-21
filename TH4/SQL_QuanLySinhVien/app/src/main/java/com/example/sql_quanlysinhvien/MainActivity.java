@@ -1,10 +1,12 @@
 package com.example.sql_quanlysinhvien;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,10 +21,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     EditText edtId, edtName, edtNum;
-    Button btnAdd, btnEdit, btnDel;
+    Button btnAdd, btnEdit, btnDel, btnClear;
     ListView listView;
     ArrayList<String> myList;
     ArrayAdapter<String> adapter;
@@ -45,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnEdit = (Button) findViewById(R.id.btnEdit);
         btnDel = (Button) findViewById(R.id.btnDel);
+        btnClear = (Button) findViewById(R.id.btnClear);
 
         listView = (ListView) findViewById(R.id.listView);
         myList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myList);
-        listView.setAdapter(adapter);
+
 
         db = openOrCreateDatabase("qlsinhvien.db", MODE_PRIVATE, null);
         try {
@@ -58,24 +61,35 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("Error", "Bang da ton tai");
         }
+
+        show();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, myList);
+        listView.setAdapter(adapter);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String malop = edtId.getText().toString();
                 String tenlop = edtName.getText().toString();
-                int siso = Integer.parseInt(edtNum.getText().toString());
-                ContentValues value = new ContentValues();
-                value.put("malop", malop);
-                value.put("tenlop", tenlop);
-                value.put("siso", siso);
-                String msg = "";
-                if (db.insert("tblop", null, value) == -1) {
-                    msg = "Them khong thanh cong";
+                String siso1 = edtNum.getText().toString();
+                if (malop.equals("") || tenlop.equals("") || siso1.equals("")) {
+                    Toast.makeText(MainActivity.this, "Moi nhap thong tin", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    msg = "Them thanh cong";
+                    int siso = Integer.parseInt(siso1);
+                    ContentValues value = new ContentValues();
+                    value.put("malop", malop);
+                    value.put("tenlop", tenlop);
+                    value.put("siso", siso);
+                    String msg = "";
+                    if (db.insert("tblop", null, value) == -1) {
+                        msg = "Them khong thanh cong";
+                    } else {
+                        msg = "Them thanh cong";
+                    }
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+                    recreate();
                 }
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -92,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
                     msg = n + " ban ghi duoc xoa";
                 }
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                adapter.notifyDataSetChanged();
+                recreate();
             }
         });
 
@@ -113,7 +129,47 @@ public class MainActivity extends AppCompatActivity {
                     msg = n + " ban ghi duoc sua thanh cong";
                 }
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                adapter.notifyDataSetChanged();
+                recreate();
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                String[] parts = selectedItem.split(" - ");
+                if (parts.length == 3) {
+                    String itemId = parts[0];
+                    String itemName = parts[1];
+                    String itemNumber = parts[2];
+                    edtId.setText(itemId);
+                    edtName.setText(itemName);
+                    edtNum.setText((itemNumber));
+                }
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edtId.setText("");
+                edtName.setText("");
+                edtNum.setText("");
+                adapter.notifyDataSetChanged();
+                recreate();
+            }
+        });
+    }
+    private void show() {
+        Cursor c = db.query("tblop", null, null, null, null, null, null);
+        c.moveToNext();
+        String data = "";
+        while (!c.isAfterLast()) {
+            data = c.getString(0) + " - " + c.getString(1) + " - " + c.getString(2);
+            c.moveToNext();
+            myList.add(data);
+        }
+        c.close();
     }
 }
