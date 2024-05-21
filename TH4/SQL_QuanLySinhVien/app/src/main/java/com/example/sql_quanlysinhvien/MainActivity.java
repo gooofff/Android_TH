@@ -78,5 +78,42 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
         });
+
+        btnDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String malop = edtId.getText().toString();
+                int n = db.delete("tblop", "malop = ?", new String[] {malop});
+                String msg = "";
+                if (n == 0) {
+                    msg = "Xoa khong thanh cong";
+                }
+                else {
+                    msg = n + " ban ghi duoc xoa";
+                }
+                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String malop = edtId.getText().toString();
+                String tenlop = edtName.getText().toString();
+                int siso = Integer.parseInt(edtNum.getText().toString());
+                ContentValues value = new ContentValues();
+                value.put("tenlop", tenlop);
+                value.put("siso", siso);
+                int n = db.update("tblop", value, "malop = ?", new String[] {malop});
+                String msg = "";
+                if (n == 0) {
+                    msg = "Sua khong thanh cong";
+                }
+                else {
+                    msg = n + " ban ghi duoc sua thanh cong";
+                }
+                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
