@@ -116,21 +116,37 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String malop = edtId.getText().toString();
                 String tenlop = edtName.getText().toString();
-                int siso = Integer.parseInt(edtNum.getText().toString());
-                ContentValues value = new ContentValues();
-                value.put("tenlop", tenlop);
-                value.put("siso", siso);
-                int n = db.update("tblop", value, "malop = ?", new String[] {malop});
-                String msg = "";
-                if (n == 0) {
-                    msg = "Sua khong thanh cong";
+                String siso1 = edtNum.getText().toString();
+                if (malop.equals("") || tenlop.equals("") || siso1.equals("")) {
+                    Toast.makeText(MainActivity.this, "Moi nhap thong tin", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    msg = n + " ban ghi duoc sua thanh cong";
+                    Cursor c = db.query("tblop", null, "malop = ?", new String[] {malop}, null, null, null);
+                    if (c.moveToFirst()) {
+                        String tenlop2 = c.getString(1);
+                        String siso2 = c.getString(2);
+                        if (tenlop.equals(tenlop2) && siso1.equals(siso2)) {
+                            Toast.makeText(MainActivity.this, "Thong tin trung lap", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else {
+                            int siso = Integer.parseInt(siso1);
+                            ContentValues value = new ContentValues();
+                            value.put("tenlop", tenlop);
+                            value.put("siso", siso);
+                            int n = db.update("tblop", value, "malop = ?", new String[]{malop});
+                            String msg = "";
+                            if (n == 0) {
+                                msg = "Sua khong thanh cong";
+                            } else {
+                                msg = n + " ban ghi duoc sua thanh cong";
+                            }
+                            Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            adapter.notifyDataSetChanged();
+                            recreate();
+                        }
+                    }
                 }
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                adapter.notifyDataSetChanged();
-                recreate();
             }
         });
 
