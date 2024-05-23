@@ -9,6 +9,14 @@
     tools:context=".MainActivity"
     android:padding="16dp">
 
+    <EditText
+        android:id="@+id/edtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Book's Title"
+        android:inputType="text" />
+
     <ListView
         android:id="@+id/listViewBooks"
         android:layout_width="match_parent"

@@ -78,5 +78,11 @@
         android:id="@+id/btnUpdateBook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit" />
+        android:text="Update" />
+
+    <Button
+        android:id="@+id/btn_DeleleBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete" />
 </LinearLayout>

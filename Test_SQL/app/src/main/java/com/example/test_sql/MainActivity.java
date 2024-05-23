@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listViewBooks;
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> bookList;
     private ArrayList<Integer> bookIDs;
     private Button btnAdd;
+    private EditText edtSearch;
 
     Button test;
 
@@ -45,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         bookList = new ArrayList<>();
         bookIDs = new ArrayList<>();
         btnAdd = findViewById(R.id.btnAdd);
+        edtSearch = findViewById(R.id.edtSearch);
 
         loadBooks();
 
@@ -67,6 +73,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(myIntent2);
             }
         });
+
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterList(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
     private void loadBooks() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -85,6 +108,25 @@ public class MainActivity extends AppCompatActivity {
 
         cursor.close();
         db.close();
+    }
+
+    private void filterList(String text) {
+        if (text.equals("")) {
+            adapter.clear();
+            loadBooks();
+            adapter.notifyDataSetChanged();
+        }
+        else {
+            List<String> filteredList = new ArrayList<>();
+            for (String item : bookList) {
+                if (item.toLowerCase().contains(text.toLowerCase())) {
+                    filteredList.add(item);
+                }
+            }
+            adapter.clear();
+            adapter.addAll(filteredList);
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }
