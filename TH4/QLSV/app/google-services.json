@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "391744647284",
+    "firebase_url": "https://qlsv-b9866-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "qlsv-b9866",
+    "storage_bucket": "qlsv-b9866.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391744647284:android:055ed1b904ddb65d4c6121",
+        "android_client_info": {
+          "package_name": "com.example.qlsv"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBfof3zu_OxMk5_AojZcVTCUxpAeowEZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
