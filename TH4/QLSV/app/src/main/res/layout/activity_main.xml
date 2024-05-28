@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email" />
+
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="match_parent"
@@ -38,9 +39,17 @@
         android:layout_height="wrap_content"
         android:text="Delete Student" />
 
+    <Button
+        android:id="@+id/btnClear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear" />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        />
 
 </LinearLayout>
