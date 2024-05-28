@@ -123,9 +123,14 @@ public class MainActivity extends AppCompatActivity {
     private void updateStudent() {
         String name = edtName.getText().toString();
         String email = edtEmail.getText().toString();
-        Student student = new Student(StudentID, name, email);
-        databaseHelper.updateStudent(StudentID, student);
-        loadStudents();
+        if (name.equals("") || email.equals("")) {
+            Toast.makeText(this, "Please enter a name and email", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Student student = new Student(StudentID, name, email);
+            databaseHelper.updateStudent(StudentID, student);
+            loadStudents();
+        }
     }
     private void deleteStudent() {
         if (StudentID.isEmpty()) {
@@ -149,14 +154,15 @@ public class MainActivity extends AppCompatActivity {
                     Student student = postSnapshot.getValue(Student.class);
                     studentList.add(student);
                 }
+                if (!studentList.isEmpty()) {
+                    for (Student student : studentList) {
+                        String temp = student.getId() + " - " + student.getName() + " - " + student.getEmail();
+                        list.add(temp);
+                    }
 
-                for (Student student : studentList) {
-                    String temp = student.getId() + " - " + student.getName() + " - " + student.getEmail();
-                    list.add(temp);
+                    adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, list);
+                    listView.setAdapter(adapter);
                 }
-
-                adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(adapter);
             }
 
             @Override
